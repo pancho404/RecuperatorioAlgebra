@@ -65,6 +65,70 @@ namespace FranMath
             this.z = v3.z;
         }
         #endregion
+
+        #region Operators
+        public static bool operator ==(Vec3 a, Vec3 b)
+        {
+            //Se calcula la diferencia entre cada componente
+            float xDifference = a.x - b.x;
+            float yDifference = a.y - b.y;
+            float zDifference = a.z - b.z;
+            //Se realiza la suma de los cuadrados de cada componente$
+            float sqr = xDifference * xDifference + yDifference * yDifference + zDifference * zDifference;
+            return sqr < epsilon * epsilon;
+            //Si la suma de los cuadrados es menor al cuadrado de epsilon, true, si no, false
+        }
+        public static bool operator !=(Vec3 a, Vec3 b)
+        {
+            //Se utiliza el == para chequear lo opuesto
+            return !(a == b);
+        }
+
+        public static Vec3 operator +(Vec3 a, Vec3 b)
+        {
+            //Se suman los componentes de cada vector con su correspondiente
+            return new Vec3(a.x + b.x, a.y + b.y, a.z + b.z);
+        }
+
+        public static Vec3 operator -(Vec3 a, Vec3 b)
+        {
+            //Se restan los componentes de cada vector con su correspondiente
+            return new Vec3(a.x - b.x, a.y - b.y, a.z - b.z);
+        }
+
+        public static Vec3 operator -(Vec3 a)
+        {
+            //Se invierte cada componente
+            return new Vec3(-a.x, -a.y, -a.z);
+        }
+
+        public static Vec3 operator *(Vec3 a, float scalar)
+        {
+            //Se multiplica cada componente del vector por un numero en particular
+            return new Vec3(a.x * scalar, a.y * scalar, a.z * scalar);
+        }
+        public static Vec3 operator *(float scalar, Vec3 a)
+        {
+            //Se realiza lo mismo (propiedad conmutativa)
+            return new Vec3(a.x * scalar, a.y * scalar, a.z * scalar);
+        }
+
+        public static Vec3 operator /(Vec3 a, float scalar)
+        {
+            //Se divide cada componente del vector por un numero en particular
+            return new Vec3(a.x / scalar, a.y / scalar, a.z / scalar);
+        }
+
+        public static implicit operator Vector3(Vec3 a)
+        {
+            return new Vector3(a.x, a.y, a.z);
+        }
+
+        public static implicit operator Vector2(Vec3 a)
+        {
+            return new Vector3(a.x, a.y, 0);
+        }
+        #endregion
     }
 
 }
