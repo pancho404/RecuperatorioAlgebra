@@ -7,7 +7,7 @@ namespace FranMath
 {
     [System.Serializable]
 
-    public class Vec3 : IEquatable<Vec3>
+    public class Vec3
     {
         #region Variables
         public float x;
@@ -127,6 +127,103 @@ namespace FranMath
         public static implicit operator Vector2(Vec3 a)
         {
             return new Vector3(a.x, a.y, 0);
+        }
+        #endregion
+
+        #region Functions
+
+        public void Set(float newX, float newY, float newZ)
+        {
+            x = newX;
+            y = newY;
+            z = newZ;
+        }
+
+        public override string ToString()
+        {
+            return "(" + x.ToString() + ", " + y.ToString() + ", " + z.ToString() + ")";
+        }
+
+        public static float Angle(Vec3 from, Vec3 to)
+        {
+            //Formula = Cos @ = producto punto entre los vectores/ producto punto entre las normalizadas de los vectores
+            return ((float)Math.Acos((from.x * to.x + from.y * to.y + from.z * to.z) / ((Math.Sqrt(from.x * from.x + from.y * from.y + from.z * from.z)) * (Math.Sqrt(to.x * to.x + to.y * to.y + to.z + to.z)))) / (float)Math.PI * 180);
+        }
+
+        public static Vec3 ClampMagnitude(Vec3 vec, float maxLength)
+        {
+            float normalized = (float)Math.Sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z); //Se normaliza el vector
+            float scalar = Math.Min(normalized, maxLength) / normalized; //se obtiene un escalar a partir del minimo entre el vector normalizado y la longitud maxima.
+            //Se multiplica cada componente por el escalar para obtener el tamaño de vector deseado.
+            return new Vec3(scalar * vec.x, scalar * vec.y, scalar * vec.z);
+        }
+
+        public static float Magnitude(Vec3 vector)
+        {
+            //Magnitud = Raiz cuadrada de la suma de los cuadrados de cada componente
+            return (float)Math.Sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+        }
+
+        public static Vec3 Cross(Vec3 a, Vec3 b)
+        {
+            //Se realiza el producto cruz (a.x, a.y, a.z)
+            //                          * (b.x, b.y, b.z)
+            return new Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+        }
+
+        public static float Distance(Vec3 a, Vec3 b)
+        {
+            //Distancia = diferencia de magnitudes entre vectores
+            return Magnitude(a - b);
+        }
+
+        public static float Dot(Vec3 a, Vec3 b)
+        {
+            //El famoso producto punto = producto entre componentes correspondientes entre vectores.
+            return a.x * b.x + a.y * b.y + a.z * b.z;
+        }
+
+        public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
+        {
+            //T representa el tiempo y siempre se clampea en un rango de 0 a 1
+            if (t < 0)
+            {
+                t = 0;
+            }
+            if (t > 1)
+            {
+                t = 1;
+            }
+            return a + (b - a) * t;
+        }
+
+        public static Vec3 LerpUnclamped(Vec3 a, Vec3 b, float t)
+        {
+            //Lo mismo que el Lerp pero sin el clamp del tiempo
+            return (a + (b - a) * t);
+        }
+
+        public static Vec3 Max(Vec3 a, Vec3 b)
+        {
+            //Se saca el valor maximo entre los componentes de cada vector
+            return new Vec3(Math.Max(a.x, b.x), Math.Max(a.y, b.y), Math.Max(a.z, b.z));
+        }
+
+        public static Vec3 Min(Vec3 a, Vec3 b)
+        {
+            //Se saca el valor minimo entre los componentes de cada vector
+            return new Vec3(Math.Min(a.x, b.x), Math.Min(a.y, b.y), Math.Min(a.z, b.z));
+        }
+
+        public static float SqrMagnitude(Vec3 vector)
+        {
+            //Suma de los cuadrados
+            return (vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+        }
+
+        public static Vec3 Project(Vec3 vector, Vec3 onNormal)
+        {
+            return new Vec3((Dot(vector, onNormal) / Magnitude(onNormal)) * (onNormal / Magnitude(onNormal)));
         }
         #endregion
     }
