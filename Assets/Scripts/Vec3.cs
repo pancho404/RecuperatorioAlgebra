@@ -223,7 +223,30 @@ namespace FranMath
 
         public static Vec3 Project(Vec3 vector, Vec3 onNormal)
         {
+            //Se obtiene el angulo entre los dos vectores, para calcular luego la magnitud del vector proyectado sobre el vector onNormal
             return new Vec3((Dot(vector, onNormal) / Magnitude(onNormal)) * (onNormal / Magnitude(onNormal)));
+        }
+
+        public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal)
+        {
+            return -2F * Dot(inNormal, inDirection) * inNormal + inDirection;
+        }
+
+        public void Scale(Vec3 scale)
+        {
+            //Se multiplica cada componente por un escalar en comun.
+            x *= scale.x;
+            y *= scale.y;
+            z *= scale.z;
+        }
+
+        public void Normalize()
+        {
+            //Se divide cada componente por la magnitud del vector
+            float aux = (float)Math.Sqrt(x * x + y * y + z * z); ;
+            x = x / aux;
+            y = y / aux;
+            z = z / aux;
         }
         #endregion
     }
