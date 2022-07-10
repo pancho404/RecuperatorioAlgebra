@@ -5,7 +5,7 @@ using System;
 
 namespace FranMath
 {
-    public class Plane
+    public class FranPlane
     {
         private Vec3 normal;
         private float distance;
@@ -43,12 +43,12 @@ namespace FranMath
             set { thirdVector = value; }
         }
 
-        public Plane flipped
+        public FranPlane flipped
         {
-            get { return new Plane(-normal, -distance); }
+            get { return new FranPlane(-normal, -distance); }
         }
 
-        public Plane(Vec3 inNormal, Vec3 inPoint)
+        public FranPlane(Vec3 inNormal, Vec3 inPoint)
         {
             normal = inNormal.normalized;
             distance = -Vec3.Dot(inNormal.normalized, inPoint);
@@ -57,7 +57,7 @@ namespace FranMath
             thirdVector = Vec3.Zero;
         }
 
-        public Plane(Vec3 inNormal, float d)
+        public FranPlane(Vec3 inNormal, float d)
         {
             normal = inNormal.normalized;
             distance = d;
@@ -66,7 +66,7 @@ namespace FranMath
             thirdVector = Vec3.Zero;
         }
 
-        public Plane(Vec3 a, Vec3 b, Vec3 c)
+        public FranPlane(Vec3 a, Vec3 b, Vec3 c)
         {
             normal = (Vec3.Cross(b - a, c - a)).normalized;
             distance = -Vec3.Dot(normal, a);
@@ -121,9 +121,9 @@ namespace FranMath
             distance += Vec3.Dot(normal, translation);
         }
 
-        public static Plane Translate(Plane plane, Vec3 translation)
+        public static FranPlane Translate(FranPlane plane, Vec3 translation)
         {
-            return new Plane(plane.normal, plane.distance += Vec3.Dot(plane.normal, translation));
+            return new FranPlane(plane.normal, plane.distance += Vec3.Dot(plane.normal, translation));
         }
     }
 
