@@ -26,31 +26,31 @@ public class EjerciciosResueltos : MonoBehaviour
         switch (excersice)
         {
             case 1:
-                result = A + B;
+                result = A + B; //Suma de vectores
                 break;
-            case 2:
+            case 2: //Resta de vectores
                 result = B - A;
                 break;
             case 3:
-                result = new Vec3(A.x * B.x, A.y * B.y, A.z * B.z);
+                result = new Vec3(A.x * B.x, A.y * B.y, A.z * B.z);    //Producto punto            
                 break;
             case 4:
-                result = -Vec3.Cross(A, B);
+                result = -Vec3.Cross(A, B); //Producto cruz
                 break;
             case 5:
                 result = Vec3.Lerp(A, B, Time.time % 1);
                 break;
             case 6:
-                result = Vec3.Max(A, B);
+                result = Vec3.Max(A, B); //Maximo de cada coordenada
                 break;
             case 7:
-                result = Vec3.Project(A, B);
+                result = Vec3.Project(A, B); //Proyeccion
                 break;
             case 8:
-                result = (A + B).normalized * Vec3.Distance(A, B);
+                result = (A + B).normalized * Vec3.Distance(A, B); 
                 break;
             case 9:
-                result = Vec3.Reflect(A, B.normalized);
+                result = Vec3.Reflect(A, B.normalized); //Refleccion
                 break;
             case 10:
                 interp += Time.deltaTime;
