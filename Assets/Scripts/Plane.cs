@@ -45,6 +45,7 @@ namespace FranMath
 
         public FranPlane flipped
         {
+            //Invierte el planoo
             get { return new FranPlane(-normal, -distance); }
         }
 
@@ -77,30 +78,37 @@ namespace FranMath
 
         public Vec3 ClosestPointOnPlane(Vec3 point)
         {
-            float dot = Vec3.Dot(normal, point) + distance;
+            //Se obtiene el punto del plano mas cercano a point
+            float dot = Vec3.Dot(normal, point) + distance; //devuelve la distancia del punto al plano
             return point - normal * dot;
         }
 
         public void Flip()
         {
+            //Se invierte el plano
             normal = -normal;
             distance = -distance;
         }
 
         public float GetDistanceToPoint(Vec3 point)
         {
+            //Se obtiene la distancia al punto mas cercano del plano
             return Vec3.Dot(normal, point) + distance;
         }
 
         public bool GetSide(Vec3 point)
         {
+            //Devuelve si el punto se encuentra en la parte positiva del plano
             return (double)Vec3.Dot(normal, point) + (double)distance > 0f;
         }
 
         public bool SameSide(Vec3 inPoint, Vec3 inPoint1)
         {
+            //Devuelve si los dos puntos se encuentran en el mismo lado del plano
+            //Se calculan las distancias de los puntos al plano
             float dToPoint = GetDistanceToPoint(inPoint);
             float dToPoint1 = GetDistanceToPoint(inPoint1);
+            //Si ambas son negativas o ambas son positivas, los puntos se encuentran del mismo lado
             return (double)dToPoint > 0.0f && (double)dToPoint1 > 0.0f || (double)dToPoint < 0.0f && (double)dToPoint1 < 0.0f;
         }
 
@@ -112,7 +120,9 @@ namespace FranMath
 
         public void SetNormalAndPosition(Vec3 inNormal, Vec3 inPoint)
         {
+            //Se normaliza el vector inNormal y se setea como normal del plano
             normal = inNormal.normalized;
+            //La distancia al origen se setea mediante el producto punto entre la normal y el punto del plano.
             distance = -Vec3.Dot(inNormal.normalized, inPoint);
         }
 
