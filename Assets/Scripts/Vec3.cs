@@ -186,6 +186,7 @@ namespace FranMath
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
             //T representa el tiempo y siempre se clampea en un rango de 0 a 1
+            //interpolacion de una posicion a otra.
             if (t < 0)
             {
                 t = 0;
