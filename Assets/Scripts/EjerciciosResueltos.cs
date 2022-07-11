@@ -32,7 +32,7 @@ public class EjerciciosResueltos : MonoBehaviour
                 result = B - A;
                 break;
             case 3:
-                result = new Vec3(A.x * B.x, A.y * B.y, A.z * B.z);    //Producto punto            
+                result = new Vec3(A.x * B.x, A.y * B.y, A.z * B.z); //Multiplicacion de cada coordenada
                 break;
             case 4:
                 result = -Vec3.Cross(A, B); //Producto cruz
@@ -47,7 +47,7 @@ public class EjerciciosResueltos : MonoBehaviour
                 result = Vec3.Project(A, B); //Proyeccion
                 break;
             case 8:
-                result = (A + B).normalized * Vec3.Distance(A, B); 
+                result = (A + B).normalized * Vec3.Distance(A, B); //Suma de vectoras normalizad * la distancia entre ellos.
                 break;
             case 9:
                 result = Vec3.Reflect(A, B.normalized); //Refleccion
