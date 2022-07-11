@@ -50,11 +50,12 @@ public class MeshDetection : MonoBehaviour
 
         for (int i = 0; i < indexes.Length; i += 3)
         {
+            //Se forma un triangulo cada 3 indices del array.
             Vec3 v1 = new Vec3(objectMesh.vertices[indexes[i]]);
             Vec3 v2 = new Vec3(objectMesh.vertices[indexes[i + 1]]);
             Vec3 v3 = new Vec3(objectMesh.vertices[indexes[i + 2]]);
 
-
+            //Plano con forma de triangulo
             FranPlane plane = new FranPlane(v1, v2, v3);
             plane.FirstVector = FromLocalToWolrd(v1, transform);
             plane.SecondVector = FromLocalToWolrd(v2, transform);
@@ -62,12 +63,14 @@ public class MeshDetection : MonoBehaviour
             plane.Normal = Vec3.Cross(plane.SecondVector - plane.FirstVector, plane.ThirdVector - plane.FirstVector).normalized + pos;
             plane.Distance = -Vec3.Dot(plane.Normal, plane.FirstVector);
 
-            planesFromMesh.Add(plane);
+            planesFromMesh.Add(plane); //Se añade a la lista de planos
         }
 
-        planesFromMesh = planesFromMesh.OrderByDescending(plane => (Vec3.Cross(plane.FirstVector - plane.SecondVector, plane.FirstVector - plane.ThirdVector).magnitude) * 0.5f).ToList();
+        planesFromMesh = planesFromMesh.OrderByDescending(plane => (Vec3.Cross(plane.FirstVector - plane.SecondVector, plane.FirstVector - plane.ThirdVector).magnitude) * 0.5f).ToList(); //Se ordenan de mayor a menor
 
         pointsFromPointCollide.Clear();
+
+        //Se añaden los puntos de la mesh
 
         for (int i = 0; i < pointToCollide.GetComponent<MeshFilter>().mesh.vertices.Length; i++)
         {
@@ -76,6 +79,7 @@ public class MeshDetection : MonoBehaviour
             pointsFromPointCollide.Add(point);
         }
 
+        //Se añade un contador por cada triangulo del detector que "ve" a la mesh a detectar
         for (int j = 0; j < pointsFromPointCollide.Count; j++)
         {
             int planesCollided = 0;
@@ -109,7 +113,9 @@ public class MeshDetection : MonoBehaviour
 
     private bool CreateAndDetectCollisionWithBoundingBox(Vector3[] points, Transform pointToCollide)
     {
+        //Creamos la bounding box con los vertices mas lejanos del detector
         Vec3[] pointsTransformed = new Vec3[points.Length];
+        //Transform from local to world para puntos
         for (int i = 0; i < points.Length; i++)
         {
             pointsTransformed[i] = new Vec3(points[i].x * transform.localScale.x, points[i].y * transform.localScale.y, points[i].z * transform.localScale.z);
@@ -123,6 +129,7 @@ public class MeshDetection : MonoBehaviour
         front = Vec3.Zero;
         back = Vec3.Zero;
 
+        //Se chequea cual de los puntos esta mas hacia la izquierda, derecha, arriba abajo, atras y adelante
         for (int i = 0; i < pointsTransformed.Length; i++)
         {
             if (pointsTransformed[i].x < left.x)
@@ -155,6 +162,7 @@ public class MeshDetection : MonoBehaviour
 
         List<Vec3> pointsFromPointCollide = new List<Vec3>();
 
+        //Se agregan los puntos a la de la mesh a detectar a la lista.
         for (int i = 0; i < pointToCollide.GetComponent<MeshFilter>().mesh.vertices.Length; i++)
         {
             Vec3 point = FromLocalToWolrd(new Vec3(pointToCollide.GetComponent<MeshFilter>().mesh.vertices[i]), pointToCollide);
@@ -162,6 +170,7 @@ public class MeshDetection : MonoBehaviour
             pointsFromPointCollide.Add(point);
         }
 
+        //Chequeo si los puntos de la mesh estan dentro del bounding box
         for (int i = 0; i < pointsFromPointCollide.Count; i++)
         {
             if (pointsFromPointCollide[i].x > left.x + pos.x && pointsFromPointCollide[i].y > down.y + pos.y && pointsFromPointCollide[i].z > back.z + pos.z && pointsFromPointCollide[i].x < right.x + pos.x && pointsFromPointCollide[i].y < up.y + pos.y && pointsFromPointCollide[i].z < front.z + pos.z)
