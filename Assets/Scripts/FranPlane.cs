@@ -45,7 +45,7 @@ namespace FranMath
 
         public FranPlane flipped
         {
-            //Invierte el planoo
+            //Devuelve una copia invertida del plano pero no invierte el plano actual.
             get { return new FranPlane(-normal, -distance); }
         }
 
